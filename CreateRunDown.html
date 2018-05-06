@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Client Side Pagination in DataGrid - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/demo/demo.css">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+	<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+</head>
+<script type="text/javascript">
+    $(function(){
+        //$("#id").textbox({disabled:true});
+        
+        $("#choselesson").datalist({
+            url: 'http://localhost:3000/lessonplans',
+            method: 'get',
+            columns:[[
+                {field:'lessonname'}
+            ]],
+            checkbox: true,
+            lines: true
+        });
+        
+        $("#choseclinic").datalist({
+            url: 'http://localhost:3000/clinic',
+            method: 'get',
+            columns:[[
+                {field:'name'}
+            ]],
+            checkbox: true,
+            lines: true
+        });
+        
+        $("#chosepatient").datalist({
+            url: 'http://localhost:3000/user?type=P',
+            method: 'get',
+            columns:[[
+                {field:'name'}
+            ]],
+            checkbox: true,
+            lines: true
+        });
+        
+        $("#choseexaminee").datalist({
+            url: 'http://localhost:3000/user?type=E',
+            method: 'get',
+            columns:[[
+                {field:'name'}
+            ]],
+            checkbox: true,
+            lines: true
+        });
+    });
+    function myformatter(date){
+        var y = date.getFullYear();
+        var m = date.getMonth()+1;
+        var d = date.getDate();
+        return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+    }
+    function myparser(s){
+        if (!s) return new Date();
+        var ss = (s.split('-'));
+        var y = parseInt(ss[0],10);
+        var m = parseInt(ss[1],10);
+        var d = parseInt(ss[2],10);
+        if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+            return new Date(y,m-1,d);
+        } else {
+            return new Date();
+        }
+    }
+            
+    function onClickCell(index,field,value) {
+        var rows = $('#testrun').datagrid("getRows");
+        var row = rows[index];
+        
+        var choselessonrow = $('#choselesson').datalist("getRows");
+        for(i=0;i<choselessonrow.length;++i){
+            if(choselessonrow[i]['lessonname']==row['lessonplan']) $('#choselesson').datalist('checkRow',i);
+        }
+        
+        var choseexamineerow = $('#choseexaminee').datalist("getRows");
+        for(i=0;i<choseexamineerow.length;++i){
+            if(choseexamineerow[i]['name']==row['clinic']) $('#choseexaminee').datalist('checkRow',i);
+        }
+        
+        var choseclinicrow = $('#choseclinic').datalist("getRows");
+        for(i=0;i<choseclinicrow.length;++i){
+            if(choseclinicrow[i]['name']==row['examiner']) $('#choseclinic').datalist('checkRow',i);
+        }
+        
+        var chosepatientrow = $('#chosepatient').datalist("getRows");
+        for(i=0;i<chosepatientrow.length;++i){
+            if(chosepatientrow[i]['name']==row['patient']) $('#chosepatient').datalist('checkRow',i);
+        }
+    }
+    
+    function sch(){
+         $.ajax({
+          url: 'http://localhost:3000/testrun?testname=' + $("#testname").textbox('getText'),
+          type: 'GET',
+          headers: {
+            'x-auth-token': localStorage.accessToken,
+            "Content-Type": "application/json"
+          },
+          dataType: 'json',
+          success: function(data) {
+            $("#testname").textbox('setText', data[0]['testname']);
+            $("#testid").textbox('setText', data[0]['testid']);
+            $("#testdate").datebox('setValue', data[0]['testdate']);
+            $("#testtime").timespinner('setValue', data[0]['testtime']);
+            $("#testrun").datagrid('loadData',data[0]['lessondata']);
+            $("#id").val(data[0]['id']);
+          }
+        });
+    }
+    
+    function save(addtype){
+        var data = {
+            "testname": $("#testname").textbox('getText'),
+            "testid": $("#testid").textbox('getText'),
+            "testdate": $("#testdate").datebox('getValue'),
+            "testtime": $("#testtime").timespinner('getValue'),
+            "lessondata": $("#testrun").datagrid('getData')['rows']
+        }
+        var httpType = 'POST';
+        var putid = '';
+        if ($("#id").val() > 0 && (addtype == null || addtype != 'copy'))
+        {
+            httpType = 'PUT';
+            putid = '/' + $("#id").val();
+        }
+        $.ajax({
+          url: 'http://localhost:3000/testrun' + putid,
+          type: httpType,
+          data: JSON.stringify(data),
+          headers: {
+            'x-auth-token': localStorage.accessToken,
+            "Content-Type": "application/json"
+          },
+          dataType: 'json',
+          success: function(data) {
+            alert('save 成功');
+          }
+        });
+    }
+    
+    function add(){
+        $('#testrun').datagrid('appendRow',{lessonplan:$('#choselesson').datalist('getChecked')[0].lessonname
+                                          , clinic:$('#choseexaminee').datalist('getChecked')[0].name
+                                          , examiner:$('#choseclinic').datalist('getChecked')[0].name
+                                          , patient:$('#chosepatient').datalist('getChecked')[0].name});
+        $('#choselesson').datalist('clearChecked');
+        $('#choseexaminee').datalist('clearChecked');
+        $('#choseclinic').datalist('clearChecked');
+        $('#chosepatient').datalist('clearChecked');
+    }
+    
+    function edit(){
+        var selectedrow = $('#testrun').datagrid('getSelected');
+        var rowIndex = $("#testrun").datagrid("getRowIndex", selectedrow);
+        $('#testrun').datagrid('updateRow',{
+                                          index: rowIndex,
+                                          row: {lessonplan:$('#choselesson').datalist('getChecked')[0].lessonname
+                                          , clinic:$('#choseexaminee').datalist('getChecked')[0].name
+                                          , examiner:$('#choseclinic').datalist('getChecked')[0].name
+                                          , patient:$('#chosepatient').datalist('getChecked')[0].name}});
+    }
+    
+    function remove(){
+        var selectedrow = $('#testrun').datagrid('getSelected');
+        var rowIndex = $("#testrun").datagrid("getRowIndex", selectedrow);
+        $("#testrun").datagrid("deleteRow", rowIndex);
+        $('#choselesson').datalist('clearChecked');
+        $('#choseexaminee').datalist('clearChecked');
+        $('#choseclinic').datalist('clearChecked');
+        $('#chosepatient').datalist('clearChecked');
+    }
+    /*
+    $.ajax({
+          url: 'http://localhost:3000/testrun?testname=' + $("#testname").textbox('getText'),
+          type: 'GET',
+          headers: {
+            'x-auth-token': localStorage.accessToken,
+            "Content-Type": "application/json"
+          },
+          dataType: 'json'
+          success: function(data) {
+            $("#choselesson").datalist({
+                data: data.lessondata,
+                checkbox: true,
+                lines: true
+            });
+          }
+        });
+    function testjsondb() {
+        var data = {"titlex": "post data1", "authorp": "test1" };
+    //POST 新增
+    //PUT 修改
+    //GET 查詢
+        $.ajax({
+          url: 'http://localhost:3000/posts',
+          type: 'POST',
+          data: JSON.stringify(data),
+          headers: {
+            'x-auth-token': localStorage.accessToken,
+            "Content-Type": "application/json"
+          },
+          dataType: 'json'
+        });
+    }*/
+</script>
+<body>
+    <h2>考試建檔</h2>
+    <input type="text" id="id" hidden>
+    <div class="easyui-panel" title="考試基本資料" style="width:1024px;padding:5px 10px;">
+        <table>
+            <tr>
+                <td>
+                    <input class="easyui-textbox" label="考試名稱:" id="testname" labelPosition="top" style="width:100%;">
+                </td>
+                <td>
+                    <input class="easyui-textbox" label="考試編號:" id="testid" labelPosition="top" style="width:100%;">
+                </td>
+                <td>
+                    <input class="easyui-datebox" label="考試日期:" id="testdate" labelPosition="top" data-options="formatter:myformatter,parser:myparser" style="width:100%;">
+                </td>
+                <td>
+                    <input class="easyui-timespinner" label="考試時間:" id="testtime" labelPosition="top" value="09:00" style="width:100%;">
+                </td>
+                <td>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="add()">增加考題</a>
+                </td>
+                <td>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="remove()">移除</a>
+                </td>
+                <td>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="edit()">更新</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="easyui-layout" style="width:800px;height:700px;">
+        <div data-options="region:'west',split:false" title="選擇考題" style="width:200px;">
+            <div id="choselesson"></div>
+        </div>
+        
+        <div data-options="region:'center'" >
+            <div class="easyui-layout" data-options="fit:true">
+                <div data-options="region:'west'" title="選擇考官" style="width:200px;">
+                    <div id="choseexaminee"></div>
+                </div>
+                <div data-options="region:'center'" title="選擇診間" style="width:200px;">
+                    <div id="choseclinic"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div data-options="region:'east',split:false" title="選擇病人" style="width:200px;">
+            <div id="chosepatient"></div>
+        </div>
+        <div data-options="region:'south',split:true" style="height:400px;">
+            <table id="testrun" class="easyui-datagrid" title="Row Editing in DataGrid" style="width:790px;height:auto"
+                    data-options="
+                        iconCls: 'icon-edit',
+                        singleSelect: true,
+                        toolbar: '#tb',
+                        onClickCell: onClickCell
+                    ">
+                <thead>
+                    <tr>
+                        <th data-options="field:'lessonplan',width:250">考題</th>
+                        <th data-options="field:'clinic',width:150">考官</th>
+                        <th data-options="field:'examiner',width:230">診間</th>
+                        <th data-options="field:'patient',width:150">病人</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="save()">save</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="sch()">search</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cut'" onclick="save('copy')">copy to new</a>
+</body>
+</html>
