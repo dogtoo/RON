@@ -121,67 +121,28 @@
       "testtime": "11:00",
       "lessondata": [
         {
-          "lessonplan": "教案1",
-          "clinic": "診1",
-          "teacher": "teacher1",
-          "patient": "patient1"
+          "lessonplan": "教案4",
+          "clinic": "teacher4",
+          "examiner": "診4",
+          "patient": "patient4"
         },
         {
           "lessonplan": "教案4",
-          "clinic": "診4",
-          "teacher": "teacher4",
+          "clinic": "teacher4",
+          "examiner": "診4",
           "patient": "patient4"
         },
         {
           "lessonplan": "教案7",
-          "clinic": "診7",
-          "teacher": "teacher7",
+          "clinic": "teacher7",
+          "examiner": "診7",
           "patient": "patient7"
         },
         {
-          "lessonplan": "教案3",
-          "clinic": "診3",
-          "teacher": "teacher3",
-          "patient": "patient3"
-        }
-      ],
-      "timeschedule": [
-        {
-          "seq": "1",
-          "type": "考試時間",
-          "min": "40"
-        },
-        {
-          "seq": "2",
-          "type": "讀題時間",
-          "min": "2"
-        },
-        {
-          "seq": "3",
-          "type": "休息時間",
-          "min": "10"
-        }
-      ],
-      "examinee": [
-        {
-          "id": 3,
-          "name": "Student3",
-          "type": "S"
-        },
-        {
-          "id": 6,
-          "name": "Student6",
-          "type": "S"
-        },
-        {
-          "id": 8,
-          "name": "Student8",
-          "type": "S"
-        },
-        {
-          "id": 9,
-          "name": "Student9",
-          "type": "S"
+          "lessonplan": "教案8",
+          "clinic": "teacher8",
+          "examiner": "診8",
+          "patient": "patient8"
         }
       ],
       "id": 3
@@ -194,90 +155,24 @@
       "lessondata": [
         {
           "lessonplan": "教案4",
-          "clinic": "診4",
-          "teacher": "teacher4",
+          "clinic": "teacher4",
+          "examiner": "診4",
           "patient": "patient4"
         },
         {
           "lessonplan": "教案7",
-          "clinic": "診7",
-          "teacher": "teacher7",
+          "clinic": "teacher7",
+          "examiner": "診7",
           "patient": "patient7"
         },
         {
           "lessonplan": "教案8",
-          "clinic": "診8",
-          "teacher": "teacher8",
+          "clinic": "teacher8",
+          "examiner": "診8",
           "patient": "patient8"
         }
       ],
       "id": 4
-    },
-    {
-      "testname": "107-3考試",
-      "testid": "107050004",
-      "testdate": "2018-05-08",
-      "testtime": "09:00",
-      "lessondata": [
-        {
-          "lessonplan": "教案3",
-          "clinic": "診3",
-          "teacher": "teacher3",
-          "patient": "patient3"
-        },
-        {
-          "lessonplan": "教案5",
-          "clinic": "診5",
-          "teacher": "teacher5",
-          "patient": "patient5"
-        },
-        {
-          "lessonplan": "教案7",
-          "clinic": "診8",
-          "teacher": "teacher8",
-          "patient": "patient8"
-        }
-      ],
-      "timeschedule": [
-        {
-          "seq": "1",
-          "type": "讀題時間",
-          "min": "2"
-        },
-        {
-          "seq": "2",
-          "type": "考試時間",
-          "min": "10"
-        },
-        {
-          "seq": "3",
-          "type": "休息時間",
-          "min": "33"
-        },
-        {
-          "seq": "4",
-          "type": "考試時間",
-          "min": "10"
-        }
-      ],
-      "examinee": [
-        {
-          "id": 1,
-          "name": "Student1",
-          "type": "S"
-        },
-        {
-          "id": 2,
-          "name": "Student2",
-          "type": "S"
-        },
-        {
-          "id": 6,
-          "name": "Student6",
-          "type": "S"
-        }
-      ],
-      "id": 5
     }
   ],
   "user": [
@@ -415,57 +310,6 @@
       "id": 27,
       "name": "patient9",
       "type": "P"
-    },
-    {
-      "id": 28,
-      "name": "Student28",
-      "type": "S"
-    },
-    {
-      "id": 29,
-      "name": "Student29",
-      "type": "S"
-    },
-    {
-      "id": 30,
-      "name": "Student30",
-      "type": "S"
-    },
-    {
-      "id": 31,
-      "name": "Student31",
-      "type": "S"
-    },
-    {
-      "id": 32,
-      "name": "Student32",
-      "type": "S"
-    }
-  ],
-  "code": [
-    {
-      "id": 1,
-      "codetype": "001",
-      "codeid": "rd",
-      "codename": "讀題時間"
-    },
-    {
-      "id": 2,
-      "codetype": "001",
-      "codeid": "ts",
-      "codename": "考試時間"
-    },
-    {
-      "id": 3,
-      "codetype": "001",
-      "codeid": "rs",
-      "codename": "休息時間"
-    },
-    {
-      "id": 4,
-      "codetype": "001",
-      "codeid": "st",
-      "codename": "暫停時間"
     }
   ]
 }

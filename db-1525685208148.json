@@ -121,10 +121,10 @@
       "testtime": "11:00",
       "lessondata": [
         {
-          "lessonplan": "教案1",
-          "clinic": "診1",
-          "teacher": "teacher1",
-          "patient": "patient1"
+          "lessonplan": "教案4",
+          "clinic": "診4",
+          "teacher": "teacher4",
+          "patient": "patient4"
         },
         {
           "lessonplan": "教案4",
@@ -139,38 +139,22 @@
           "patient": "patient7"
         },
         {
-          "lessonplan": "教案3",
-          "clinic": "診3",
-          "teacher": "teacher3",
-          "patient": "patient3"
+          "lessonplan": "教案9",
+          "clinic": "診8",
+          "teacher": "teacher8",
+          "patient": "patient8"
         }
       ],
-      "timeschedule": [
-        {
-          "seq": "1",
-          "type": "考試時間",
-          "min": "40"
-        },
-        {
-          "seq": "2",
-          "type": "讀題時間",
-          "min": "2"
-        },
-        {
-          "seq": "3",
-          "type": "休息時間",
-          "min": "10"
-        }
-      ],
+      "timeschedule": [],
       "examinee": [
-        {
-          "id": 3,
-          "name": "Student3",
-          "type": "S"
-        },
         {
           "id": 6,
           "name": "Student6",
+          "type": "S"
+        },
+        {
+          "id": 7,
+          "name": "Student7",
           "type": "S"
         },
         {

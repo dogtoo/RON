@@ -12,7 +12,7 @@
 <script type="text/javascript">
     $(function(){
         //$("#id").textbox({disabled:true});
-        
+
         $("#choselesson").datalist({
             url: 'http://localhost:3000/lessonplans',
             method: 'get',
@@ -22,7 +22,7 @@
             checkbox: true,
             lines: true
         });
-        
+
         $("#choseclinic").datalist({
             url: 'http://localhost:3000/clinic',
             method: 'get',
@@ -32,7 +32,7 @@
             checkbox: true,
             lines: true
         });
-        
+
         $("#chosepatient").datalist({
             url: 'http://localhost:3000/user?type=P',
             method: 'get',
@@ -42,8 +42,8 @@
             checkbox: true,
             lines: true
         });
-        
-        $("#choseexaminee").datalist({
+
+        $("#choseteacher").datalist({
             url: 'http://localhost:3000/user?type=E',
             method: 'get',
             columns:[[
@@ -51,6 +51,18 @@
             ]],
             checkbox: true,
             lines: true
+        });
+
+        $("#choseexaminee").datalist({
+            url: 'http://localhost:3000/user?type=S',
+            method: 'get',
+            columns:[[
+                {field:'name'}
+            ]],
+            checkbox: true,
+            lines: true,
+            selectOnCheck: false,
+            onBeforeSelect: function(){return false;}
         });
     });
     function myformatter(date){
@@ -71,32 +83,32 @@
             return new Date();
         }
     }
-            
+
     function onClickCell(index,field,value) {
         var rows = $('#testrun').datagrid("getRows");
         var row = rows[index];
-        
+
         var choselessonrow = $('#choselesson').datalist("getRows");
         for(i=0;i<choselessonrow.length;++i){
             if(choselessonrow[i]['lessonname']==row['lessonplan']) $('#choselesson').datalist('checkRow',i);
         }
-        
-        var choseexamineerow = $('#choseexaminee').datalist("getRows");
-        for(i=0;i<choseexamineerow.length;++i){
-            if(choseexamineerow[i]['name']==row['clinic']) $('#choseexaminee').datalist('checkRow',i);
+
+        var choseteacherrow = $('#choseteacher').datalist("getRows");
+        for(i=0;i<choseteacherrow.length;++i){
+            if(choseteacherrow[i]['name']==row['teacher']) $('#choseteacher').datalist('checkRow',i);
         }
-        
+
         var choseclinicrow = $('#choseclinic').datalist("getRows");
         for(i=0;i<choseclinicrow.length;++i){
-            if(choseclinicrow[i]['name']==row['examiner']) $('#choseclinic').datalist('checkRow',i);
+            if(choseclinicrow[i]['name']==row['clinic']) $('#choseclinic').datalist('checkRow',i);
         }
-        
+
         var chosepatientrow = $('#chosepatient').datalist("getRows");
         for(i=0;i<chosepatientrow.length;++i){
             if(chosepatientrow[i]['name']==row['patient']) $('#chosepatient').datalist('checkRow',i);
         }
     }
-    
+
     function sch(){
          $.ajax({
           url: 'http://localhost:3000/testrun?testname=' + $("#testname").textbox('getText'),
@@ -107,23 +119,46 @@
           },
           dataType: 'json',
           success: function(data) {
-            $("#testname").textbox('setText', data[0]['testname']);
-            $("#testid").textbox('setText', data[0]['testid']);
-            $("#testdate").datebox('setValue', data[0]['testdate']);
-            $("#testtime").timespinner('setValue', data[0]['testtime']);
-            $("#testrun").datagrid('loadData',data[0]['lessondata']);
-            $("#id").val(data[0]['id']);
+            if (data[0] == null)
+                alert("查無資料");
+            else {
+                $("#id").val(data[0]['id']);
+                $("#testname").textbox('setText', data[0]['testname']);
+                $("#testid").textbox('setText', data[0]['testid']);
+                $("#testdate").datebox('setValue', data[0]['testdate']);
+                $("#testtime").timespinner('setValue', data[0]['testtime']);
+                var lessondata = (data[0]['lessondata'] != null) ? data[0]['lessondata'] : [];
+                $("#testrun").datagrid('loadData',lessondata);
+                var timeschedule = (data[0]['timeschedule'] != null) ? data[0]['timeschedule'] : [];
+                $("#timeschedule").datagrid('loadData',timeschedule);
+                var examinee = (data[0]['examinee'] != null) ? data[0]['examinee'] : [];
+                $('#choseexaminee').datalist('uncheckAll');
+                var choseexaminee = $('#choseexaminee').datalist("getRows");
+
+                if (examinee != null) {
+                    for (z=0;z<examinee.length;++z) {
+                        for(i=0;i<choseexaminee.length;++i){
+                            if(choseexaminee[i]['name']==examinee[z]['name']) {
+                                $('#choseexaminee').datalist('checkRow',i);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
           }
         });
     }
-    
+
     function save(addtype){
         var data = {
             "testname": $("#testname").textbox('getText'),
             "testid": $("#testid").textbox('getText'),
             "testdate": $("#testdate").datebox('getValue'),
             "testtime": $("#testtime").timespinner('getValue'),
-            "lessondata": $("#testrun").datagrid('getData')['rows']
+            "lessondata": $("#testrun").datagrid('getData')['rows'],
+            "timeschedule": $("#timeschedule").datagrid('getData')['rows'],
+            "examinee": $("#choseexaminee").datagrid('getChecked')
         }
         var httpType = 'POST';
         var putid = '';
@@ -146,38 +181,99 @@
           }
         });
     }
-    
+
     function add(){
         $('#testrun').datagrid('appendRow',{lessonplan:$('#choselesson').datalist('getChecked')[0].lessonname
-                                          , clinic:$('#choseexaminee').datalist('getChecked')[0].name
-                                          , examiner:$('#choseclinic').datalist('getChecked')[0].name
+                                          , clinic:$('#choseclinic').datalist('getChecked')[0].name
+                                          , teacher:$('#choseteacher').datalist('getChecked')[0].name
                                           , patient:$('#chosepatient').datalist('getChecked')[0].name});
         $('#choselesson').datalist('clearChecked');
-        $('#choseexaminee').datalist('clearChecked');
+        $('#choseteacher').datalist('clearChecked');
         $('#choseclinic').datalist('clearChecked');
         $('#chosepatient').datalist('clearChecked');
     }
-    
+
     function edit(){
         var selectedrow = $('#testrun').datagrid('getSelected');
         var rowIndex = $("#testrun").datagrid("getRowIndex", selectedrow);
         $('#testrun').datagrid('updateRow',{
                                           index: rowIndex,
                                           row: {lessonplan:$('#choselesson').datalist('getChecked')[0].lessonname
-                                          , clinic:$('#choseexaminee').datalist('getChecked')[0].name
-                                          , examiner:$('#choseclinic').datalist('getChecked')[0].name
+                                          , clinic:$('#choseclinic').datalist('getChecked')[0].name
+                                          , teacher:$('#choseteacher').datalist('getChecked')[0].name
                                           , patient:$('#chosepatient').datalist('getChecked')[0].name}});
     }
-    
+
     function remove(){
         var selectedrow = $('#testrun').datagrid('getSelected');
         var rowIndex = $("#testrun").datagrid("getRowIndex", selectedrow);
         $("#testrun").datagrid("deleteRow", rowIndex);
         $('#choselesson').datalist('clearChecked');
-        $('#choseexaminee').datalist('clearChecked');
+        $('#choseteacher').datalist('clearChecked');
         $('#choseclinic').datalist('clearChecked');
         $('#chosepatient').datalist('clearChecked');
     }
+
+    var editIndex = undefined;
+    function endEditing(){
+        if (editIndex == undefined){return true}
+        if ($('#timeschedule').datagrid('validateRow', editIndex)){
+            $('#timeschedule').datagrid('endEdit', editIndex);
+            editIndex = undefined;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function timeScheduleOnClickCell(index, field){
+        if (editIndex != index){
+            if (endEditing()){
+                $('#timeschedule').datagrid('selectRow', index)
+                        .datagrid('beginEdit', index);
+                var ed = $('#timeschedule').datagrid('getEditor', {index:index,field:field});
+                if (ed){
+                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                }
+                editIndex = index;
+            } else {
+                setTimeout(function(){
+                    $('#timeschedule').datagrid('selectRow', editIndex);
+                },0);
+            }
+        }
+    }
+    function timeScheduleOnEndEdit(index, row){
+        var ed = $('#timeschedule').datagrid('getEditor', {
+            index: index,
+            field: 'type'
+        });
+        row.type = $(ed.target).combobox('getText');
+
+    }
+    function append(){
+        if (endEditing()){
+            $('#timeschedule').datagrid('appendRow',{seq:$('#timeschedule').datagrid('getRows').length+1});
+            editIndex = $('#timeschedule').datagrid('getRows').length-1;
+            $('#timeschedule').datagrid('selectRow', editIndex)
+                    .datagrid('beginEdit', editIndex);
+        }
+    }
+    function removeit(){
+        if (editIndex == undefined){return}
+        $('#timeschedule').datagrid('cancelEdit', editIndex)
+                .datagrid('deleteRow', editIndex);
+        editIndex = undefined;
+    }
+    function accept(){
+        if (endEditing()){
+            $('#timeschedule').datagrid('acceptChanges');
+        }
+    }
+    function reject(){
+        $('#timeschedule').datagrid('rejectChanges');
+        editIndex = undefined;
+    }
+
     /*
     $.ajax({
           url: 'http://localhost:3000/testrun?testname=' + $("#testname").textbox('getText'),
@@ -214,74 +310,132 @@
 </script>
 <body>
     <h2>考試建檔</h2>
-    <input type="text" id="id" hidden>
-    <div class="easyui-panel" title="考試基本資料" style="width:1024px;padding:5px 10px;">
-        <table>
-            <tr>
-                <td>
-                    <input class="easyui-textbox" label="考試名稱:" id="testname" labelPosition="top" style="width:100%;">
-                </td>
-                <td>
-                    <input class="easyui-textbox" label="考試編號:" id="testid" labelPosition="top" style="width:100%;">
-                </td>
-                <td>
-                    <input class="easyui-datebox" label="考試日期:" id="testdate" labelPosition="top" data-options="formatter:myformatter,parser:myparser" style="width:100%;">
-                </td>
-                <td>
-                    <input class="easyui-timespinner" label="考試時間:" id="testtime" labelPosition="top" value="09:00" style="width:100%;">
-                </td>
-                <td>
-                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="add()">增加考題</a>
-                </td>
-                <td>
-                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="remove()">移除</a>
-                </td>
-                <td>
-                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="edit()">更新</a>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="easyui-layout" style="width:800px;height:700px;">
-        <div data-options="region:'west',split:false" title="選擇考題" style="width:200px;">
-            <div id="choselesson"></div>
-        </div>
-        
-        <div data-options="region:'center'" >
-            <div class="easyui-layout" data-options="fit:true">
-                <div data-options="region:'west'" title="選擇考官" style="width:200px;">
-                    <div id="choseexaminee"></div>
-                </div>
-                <div data-options="region:'center'" title="選擇診間" style="width:200px;">
-                    <div id="choseclinic"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div data-options="region:'east',split:false" title="選擇病人" style="width:200px;">
-            <div id="chosepatient"></div>
-        </div>
-        <div data-options="region:'south',split:true" style="height:400px;">
-            <table id="testrun" class="easyui-datagrid" title="Row Editing in DataGrid" style="width:790px;height:auto"
-                    data-options="
-                        iconCls: 'icon-edit',
-                        singleSelect: true,
-                        toolbar: '#tb',
-                        onClickCell: onClickCell
-                    ">
-                <thead>
-                    <tr>
-                        <th data-options="field:'lessonplan',width:250">考題</th>
-                        <th data-options="field:'clinic',width:150">考官</th>
-                        <th data-options="field:'examiner',width:230">診間</th>
-                        <th data-options="field:'patient',width:150">病人</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="save()">save</a>
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="sch()">search</a>
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cut'" onclick="save('copy')">copy to new</a>
+    <input type="text" id="id" hidden>
+    <table>
+        <tr>
+            <td>
+                <div class="easyui-panel" title="考試基本資料" style="width:30000px;padding:5px 10px;">
+                    <table>
+                        <tr>
+                            <td>
+                                <input class="easyui-textbox" label="考試名稱:" id="testname" labelPosition="top" style="width:100%;">
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" label="考試編號:" id="testid" labelPosition="top" style="width:100%;">
+                            </td>
+                            <td>
+                                <input class="easyui-datebox" label="考試日期:" id="testdate" labelPosition="top" data-options="formatter:myformatter,parser:myparser" style="width:100%;">
+                            </td>
+                            <td>
+                                <input class="easyui-timespinner" label="考試時間:" id="testtime" labelPosition="top" value="09:00" style="width:100%;">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="easyui-layout" style="width:30000px;height:700px;">
+                    <div data-options="region:'west',split:false" title="選擇考題" style="width:200px;">
+                        <div id="choselesson"></div>
+                    </div>
+
+                    <div data-options="region:'center'" >
+                        <div class="easyui-layout" data-options="fit:true">
+                            <div data-options="region:'west'" title="選擇考官" style="width:200px;">
+                                <div id="choseteacher"></div>
+                            </div>
+                            <div data-options="region:'center'" title="選擇診間" style="width:200px;">
+                                <div id="choseclinic"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-options="region:'east',split:false" title="選擇病人" style="width:200px;">
+                        <div id="chosepatient"></div>
+                    </div>
+                    <div data-options="region:'south',split:true" style="height:400px;">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="add()">增加考題</a>
+                                </td>
+                                <td>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="remove()">移除</a>
+                                </td>
+                                <td>
+                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="edit()">更新</a>
+                                </td>
+                            </tr>
+                        </table>
+                        <table id="testrun" class="easyui-datagrid" title="Row Editing in DataGrid" style="width:790px;height:auto"
+                                data-options="
+                                    iconCls: 'icon-edit',
+                                    singleSelect: true,
+                                    toolbar: '#tb',
+                                    onClickCell: onClickCell
+                                ">
+                            <thead>
+                                <tr>
+                                    <th data-options="field:'lessonplan',width:250">考題</th>
+                                    <th data-options="field:'teacher',width:150">考官</th>
+                                    <th data-options="field:'clinic',width:230">診間</th>
+                                    <th data-options="field:'patient',width:150">病人</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </td>
+            <td valign="top">
+                <table id="timeschedule" class="easyui-datagrid" title="編輯考試時間表" style="width:300px;height:400px;"
+                        data-options="
+                            iconCls: 'icon-edit',
+                            singleSelect: true,
+                            toolbar: '#tb',
+                            rowStyler: function(index,row){
+                        		if (row.type == '考試時間'){
+                        			return 'background-color:#6293BB;color:#fff;';
+                        		}
+                        		else if (row.type == '休息時間') {
+                        		    return 'background-color:#0ab6e9;color:#fff;';
+                        		}
+                        	},
+                            onClickCell: timeScheduleOnClickCell,
+                            onEndEdit: timeScheduleOnEndEdit
+                        ">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'seq',width:'20%',editor:{type:'numberbox'}">順序</th>
+                            <th data-options="field:'type',width:'50%',formatter:function(value,row){
+                                                                        return row.type;
+                                                                    },
+                                                                    editor:{
+                                                                        type:'combobox',
+                                                                        options:{
+                                                                            valueField:'codeid',
+                                                                            textField:'codename',
+                                                                            method:'get',
+                                                                            url:'http://localhost:3000/code?type=001'
+                                                                    }
+                                                                    }">時間類型</th>
+                            <th data-options="field:'min',width:'35%',editor:{type:'numberbox'}">執行時間(分)</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb" style="height:auto">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()"></a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()"></a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">確認</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject()">回愎</a>
+                </div>
+                <div class="easyui-panel" title="參與考試生" style="height:400px;">
+                    <div id="choseexaminee"></div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
 </body>
 </html>
