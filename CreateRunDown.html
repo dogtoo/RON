@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Client Side Pagination in DataGrid - jQuery EasyUI Demo</title>
+	<title>考試建檔</title>
 	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/demo/demo.css">
@@ -64,6 +64,7 @@
             selectOnCheck: false,
             onBeforeSelect: function(){return false;}
         });
+        
     });
     function myformatter(date){
         var y = date.getFullYear();
@@ -151,6 +152,15 @@
     }
 
     function save(addtype){
+        var schedulelen = $("#timeschedule").datagrid('getData')['rows'].length;
+        var testtimelen = 0;
+        var teststatus = 'cti';
+        for (i=0;i<schedulelen;++i) {
+            if ($("#timeschedule").datagrid('getData')['rows'][i].type == '考試時間') testtimelen++;
+        }
+        if ($("#testrun").datagrid('getData')['rows'].length == $("#choseexaminee").datagrid('getChecked').length
+          && $("#testrun").datagrid('getData')['rows'].length == testtimelen)
+            teststatus = 'ctd';
         var data = {
             "testname": $("#testname").textbox('getText'),
             "testid": $("#testid").textbox('getText'),
@@ -158,7 +168,8 @@
             "testtime": $("#testtime").timespinner('getValue'),
             "lessondata": $("#testrun").datagrid('getData')['rows'],
             "timeschedule": $("#timeschedule").datagrid('getData')['rows'],
-            "examinee": $("#choseexaminee").datagrid('getChecked')
+            "examinee": $("#choseexaminee").datagrid('getChecked'),
+            "teststatus": teststatus
         }
         var httpType = 'POST';
         var putid = '';
@@ -317,7 +328,7 @@
     <table>
         <tr>
             <td>
-                <div class="easyui-panel" title="考試基本資料" style="width:30000px;padding:5px 10px;">
+                <div class="easyui-panel" title="考試基本資料" style="width:800px;padding:5px 10px;">
                     <table>
                         <tr>
                             <td>
@@ -336,7 +347,7 @@
                     </table>
                 </div>
 
-                <div class="easyui-layout" style="width:30000px;height:700px;">
+                <div class="easyui-layout" style="width:800px;height:700px;">
                     <div data-options="region:'west',split:false" title="選擇考題" style="width:200px;">
                         <div id="choselesson"></div>
                     </div>

@@ -117,7 +117,7 @@
     {
       "testname": "107-2考試",
       "testid": "107050004",
-      "testdate": "2018-05-09",
+      "testdate": "2018-05-08",
       "testtime": "11:00",
       "lessondata": [
         {
@@ -184,12 +184,13 @@
           "type": "S"
         }
       ],
+      "teststatus": "cti",
       "id": 3
     },
     {
       "testname": "107-1考試",
       "testid": "107050003",
-      "testdate": "2018-05-07",
+      "testdate": "2018-05-08",
       "testtime": "09:00",
       "lessondata": [
         {
@@ -211,12 +212,15 @@
           "patient": "patient8"
         }
       ],
+      "timeschedule": [],
+      "examinee": [],
+      "teststatus": "cti",
       "id": 4
     },
     {
       "testname": "107-3考試",
       "testid": "107050004",
-      "testdate": "2018-05-08",
+      "testdate": "20180508",
       "testtime": "09:00",
       "lessondata": [
         {
@@ -247,17 +251,32 @@
         {
           "seq": "2",
           "type": "考試時間",
-          "min": "10"
+          "min": "40"
         },
         {
           "seq": "3",
           "type": "休息時間",
-          "min": "33"
+          "min": "10"
         },
         {
           "seq": "4",
+          "type": "讀題時間",
+          "min": "2"
+        },
+        {
+          "seq": "5",
           "type": "考試時間",
-          "min": "10"
+          "min": "40"
+        },
+        {
+          "seq": "6",
+          "type": "讀題時間",
+          "min": "2"
+        },
+        {
+          "seq": "7",
+          "type": "考試時間",
+          "min": "40"
         }
       ],
       "examinee": [
@@ -277,6 +296,7 @@
           "type": "S"
         }
       ],
+      "teststatus": "ctd",
       "id": 5
     }
   ],
@@ -466,6 +486,42 @@
       "codetype": "001",
       "codeid": "st",
       "codename": "暫停時間"
+    },
+    {
+      "id": 5,
+      "codetype": "002",
+      "codeid": "cti",
+      "codename": "建檔(尚有資料未設定)"
+    },
+    {
+      "id": 6,
+      "codetype": "002",
+      "codeid": "ctd",
+      "codename": "建檔完成"
+    },
+    {
+      "id": 7,
+      "codetype": "002",
+      "codeid": "tse",
+      "codename": "考試表確認"
+    },
+    {
+      "id": 8,
+      "codetype": "002",
+      "codeid": "tsr",
+      "codename": "考試執行中"
+    },
+    {
+      "id": 9,
+      "codetype": "002",
+      "codeid": "tsc",
+      "codename": "考試取消"
+    },
+    {
+      "id": 10,
+      "codetype": "002",
+      "codeid": "tss",
+      "codename": "考試暫停中"
     }
   ]
 }

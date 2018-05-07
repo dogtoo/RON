@@ -2,13 +2,227 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Client Side Pagination in DataGrid - jQuery EasyUI Demo</title>
+	<title>考試查詢</title>
 	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/demo/demo.css">
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
 	<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
 </head>
+<script type="text/javascript">
+    var ststus = {};
+    $(function(){
+        $.ajax({
+          url: 'http://localhost:3000/code?codetype=002',
+          type: 'GET',
+          headers: {
+            'x-auth-token': localStorage.accessToken,
+            "Content-Type": "application/json"
+          },
+          dataType: 'json',
+          success:  function(data) {
+            if (data[0] != null)
+            {
+                for (i=0;i<data.length;++i) {
+                    ststus[data[i].codeid] = data[i].codename;
+                }
+            }
+          }
+        });
+        
+        $("#testrun").datagrid({
+                title:'考試資料',
+				width:'100%',
+				height:'100%',
+				singleSelect:true,
+				idField:'testid',
+				columns:[[
+					{field:'testname',title:'考試名稱',width:150},
+                    {field:'testid',title:'考試編號',width:100},
+                    {field:'testdate',title:'考試日期',width:80},
+                    {field:'testtime',title:'考試時間',width:80},
+                    {field:'teststatus',title:'考試狀態',width:200},
+                    {field:'testedit',title:'考試處理',width:250
+                        , formatter:function(value,row,index){
+                            if (row.teststatus == '建檔(尚有資料未設定)') {
+                                var e = '<a href="javascript:void(0)" onclick="edittest(this)">編輯</a>';
+                                return e;
+                            } 
+                            else if (row.teststatus == '建檔完成') {
+                                var c = '<a href="javascript:void(0)" onclick="runset(this)">產生考試表</a> ';
+                                var e = '<a href="javascript:void(0)" onclick="edittest(this)">編輯</a>';
+                                return c+e;
+                            }
+							else if (row.teststatus == '考試表確認') {
+                                var r = '<a href="javascript:void(0)" onclick="runtest(this)">執行考試</a> ';
+                                var c = '<a href="javascript:void(0)" onclick="deltest(this)">刪除考試表</a>';
+                                return r+c;
+                            }
+                            else if (row.teststatus == '考試執行中') {
+                                var c = '<a href="javascript:void(0)" onclick="canceltest(this)">取消考試</a> ';
+                                var s = '<a href="javascript:void(0)" onclick="stoptest(this)">考試暫停設定</a>';
+                                return c+s;
+                            }
+                            else if (row.teststatus == '考試取消') {
+                                var r = '<a href="javascript:void(0)" onclick="testreset(this)">考試回愎</a> ';
+                                return r;
+                            }
+						}
+                    }
+                ]]
+        });
+        
+    });
+
+    function myformatter(date){
+        var y = date.getFullYear();
+        var m = date.getMonth()+1;
+        var d = date.getDate();
+        return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+    }
+    function myparser(s){
+        if (!s) return new Date();
+        var ss = (s.split('-'));
+        var y = parseInt(ss[0],10);
+        var m = parseInt(ss[1],10);
+        var d = parseInt(ss[2],10);
+        if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+            return new Date(y,m-1,d);
+        } else {
+            return new Date();
+        }
+    }
+    
+    function sch() {
+        var testname = '';
+        if ($("#testname").textbox('getText') != null && $("#testname").textbox('getText') != '')
+            testname = '?testname=' + $("#testname").textbox('getText');
+        $.ajax({
+          url: 'http://localhost:3000/testrun' + testname,
+          type: 'GET',
+          headers: {
+            'x-auth-token': localStorage.accessToken,
+            "Content-Type": "application/json"
+          },
+          dataType: 'json',
+          success: function(data) {
+            if (data[0] == null)
+                alert("查無資料");
+            else {
+                for (i=0;i<data.length;++i) {
+                    data[i].teststatus = ststus[data[i].teststatus];
+                }
+                $("#testrun").datagrid('loadData',data);
+            }
+          }
+        });
+    }
+    
+    function getRowIndex(target){
+		var tr = $(target).closest('tr.datagrid-row');
+		return parseInt(tr.attr('datagrid-row-index'));
+	}
+    
+    function edittest(target) {
+        var row = $("#testrun").datagrid('getRows')[getRowIndex(target)];
+        location.href="CreateRunDown.html?testname=" + row.testname;
+    }
+    
+    function runset(target) {
+        var row = $("#testrun").datagrid('getRows')[getRowIndex(target)];
+        $.ajax({
+          url: 'http://localhost:3000/testrun?testname=' + row.testname,
+          type: 'GET',
+          headers: {
+            'x-auth-token': localStorage.accessToken,
+            "Content-Type": "application/json"
+          },
+          dataType: 'json',
+          success: function(data) {
+            var setcol = [];
+            var runsetdata = [];
+            if (data[0] == null)
+                alert("查無資料");
+            else {
+                var runtime = data[0].testtime;
+            
+                for (i=0;i<data[0].lessondata.length;++i) {
+                    setcol[i+1] = {field:'clinic' + i,title:data[0].lessondata[i].clinic,width:150};
+                }
+                
+                for (i=0;i<data[0].timeschedule.length;++i) {
+                    //產資料
+                    var clinictext = "";
+                    if (runsetdata[i] === undefined) {
+                        runsetdata[i] = {};
+                    }
+                    for (x=0;x<setcol.length-1;++x) {
+                        if (data[0].timeschedule[i].type == "考試時間") {
+                            runsetdata[i]['clinic' + x] = data[0].lessondata[x].lessonplan + ' ' + data[0].lessondata[x].teacher
+                                                + '<p>' + data[0].lessondata[x].patient + ' ' + data[0].examinee[x].name;
+                        }
+                        else
+                        {
+                            runsetdata[i]['clinic' + x] = '';
+                        }
+                    }
+                    runsetdata[i]['timeschedule'] = runtime + ' ' + data[0].timeschedule[i].type;
+                    
+                    runtime = runtime + data[0].timeschedule[i].min;
+                }
+                
+                setcol[0] = {field:'timeschedule',title:'考試時間',width:150};
+                $("#testrunset").datagrid({
+                    title:data[0].testname,
+                    width:'100%',
+                    height:'100%',
+                    singleSelect:true,
+                    idField:'testid',
+                    columns:[
+                        setcol
+                    ],
+                    data: runsetdata
+                });
+            }
+          }
+        });
+        
+        
+    }
+    
+</script>
 <body>
+<div id="cc" class="easyui-layout" style="width:1020px;height:700px;">
+    <div data-options="region:'north',title:'考試查詢'" style="height:100px;">
+        <table>
+            <tr>
+                <td>
+                    <input class="easyui-textbox" label="考試名稱:" id="testname" labelPosition="top" style="width:100%;">
+                </td>
+                <td>
+                    <input class="easyui-textbox" label="考試編號:" id="testid" labelPosition="top" style="width:100%;">
+                </td>
+                <td>
+                    <input class="easyui-datebox" label="考試日期:" id="testdate" labelPosition="top" data-options="formatter:myformatter,parser:myparser" style="width:100%;">
+                </td>
+                <td>
+                    <input class="easyui-timespinner" label="起始時間:" id="testtimeS" labelPosition="top" value="09:00" style="width:100%;">
+                </td>
+                <td>
+                    <input class="easyui-timespinner" label="終止時間:" id="testtimeE" labelPosition="top" value="18:00" style="width:100%;">
+                </td>
+                <td>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="sch()">search</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div data-options="region:'center'," style="height:100px;">
+        <table id="testrun"></table>
+    </div>
+    <div data-options="region:'south',title:'考試時間表',split:true" style="height:400px;">
+        <table id="testrunset"></table>
+    </div>
+</div>
 </body>
 </html>
