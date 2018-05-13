@@ -1,4 +1,193 @@
 {
+  "SCRDMM": [
+    {
+      "rdId": "EXAM001",
+      "rdDesc": "測試考場",
+      "rdDate": "2018/05/13",
+      "begTime": "09:00",
+      "readTime": "2",
+      "examTime": "10",
+      "id": 1
+    }
+  ],
+  "qsmstr": [
+    {
+	    "text": "CHS",
+	    "state": "closed",
+	    "children": [
+            {
+                "text": "心絞痛臨床治療",
+                "qsId": "2017100601"
+            }
+        ],
+        "id": 1
+	},
+    {
+	    "text": "CRD",
+	    "state": "closed",
+	    "children": [
+            {
+                "text": "測試檔案顯示",
+                "qsId": "20180125"
+            },
+            {
+                "text": "測試教案1",
+                "qsId": "2017100401"
+            },
+            {
+                "text": "新增教案測試",
+                "qsId": "2018031601"
+            }
+        ],
+        "id": 2
+	},
+    {
+	    "text": "FML",
+	    "state": "closed",
+	    "children": [
+            {
+                "text": "測試修改教案",
+                "qsId": "2018041902"
+            },
+            {
+                "text": "xxx",
+                "qsId": "2018042904"
+            },
+            {
+                "text": "測試修改教案",
+                "qsId": "2018041901"
+            }
+        ],
+        "id": 3
+	}
+  ],
+  "exroom": [
+    {
+	    "text": "外科病房",
+	    "state": "closed",
+	    "children": [
+            {
+                "text": "心臟外科001",
+                "roomId": "H001"
+            }
+        ],
+        "id": 1
+	},
+    {
+	    "text": "內科病房",
+	    "state": "closed",
+	    "children": [
+            {
+                "text": "小兒科101",
+                "roomId": "S101"
+            },
+            {
+                "text": "小兒科102",
+                "roomId": "S102"
+            },
+            {
+                "text": "復健科203",
+                "roomId": "R203"
+            }
+        ],
+        "id": 2
+	}
+  ],
+  "examiner": [
+    {
+	    "text": "外科",
+	    "state": "closed",
+	    "children": [
+            {
+                "text": "心臟外科",
+                "state": "closed",
+                "children": [
+                    {
+                        "text": "褚韋志",
+                        "examinerId": "e00001"
+                    },
+                    {
+                        "text": "張吉名",
+                        "examinerId": "e00002"
+                    }
+                ]
+            },
+            {
+                "text": "腦部外科",
+                "state": "closed",
+                "children": [
+                    {
+                        "text": "陳宜君",
+                        "examinerId": "e00003"
+                    },
+                    {
+                        "text": "王宏達",
+                        "examinerId": "e00004"
+                    },
+                    {
+                        "text": "王彥安",
+                        "examinerId": "e00004"
+                    }
+                ]
+            }
+        ],
+        "id": 1
+	},
+    {
+	    "text": "小兒科",
+	    "state": "closed",
+	    "children": [
+            {
+                "text": "溫子芸",
+                "examinerId": "e00005"
+            }
+        ],
+        "id": 2
+	},
+    {
+	    "text": "婦科",
+	    "state": "closed",
+	    "children": [
+            {
+                "text": "黃修仁",
+                "examinerId": "e00006"
+            }
+        ],
+        "id": 3
+	}
+  ],
+  "patient": [
+    {
+	    "text": "外科病人",
+	    "state": "closed",
+	    "children": [
+            {
+                "text": "高亞盛",
+                "patientId": "P00001"
+            }
+        ],
+        "id": 1
+	},
+    {
+	    "text": "內科病人",
+	    "state": "closed",
+	    "children": [
+            {
+                "text": "蕭千山",
+                "patientId": "P00002"
+            },
+            {
+                "text": "宓巧燕",
+                "patientId": "P00003"
+            },
+            {
+                "text": "林佳儒",
+                "patientId": "P00004"
+            }
+        ],
+        "id": 2
+	}
+  ],
   "posts": [
     {
       "id": 1,
