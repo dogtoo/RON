@@ -63,129 +63,83 @@
   ],
   "exroom": [
     {
-      "text": "外科病房",
-      "state": "closed",
-      "children": [
-        {
-          "text": "心臟外科001",
-          "roomId": "H001"
-        }
-      ],
+      "roomName": "心臟外科001",
+      "roomId": "H001",
       "id": 1
     },
     {
-      "text": "內科病房",
-      "state": "closed",
-      "children": [
-        {
-          "text": "小兒科101",
-          "roomId": "S101"
-        },
-        {
-          "text": "小兒科102",
-          "roomId": "S102"
-        },
-        {
-          "text": "復健科203",
-          "roomId": "R203"
-        }
-      ],
+      "roomName": "小兒科101",
+      "roomId": "S101",
       "id": 2
+    },
+    {
+      "roomName": "小兒科102",
+      "roomId": "S102",
+      "id": 3
+    },
+    {
+      "roomName": "復健科203",
+      "roomId": "R203",
+      "id": 4
     }
   ],
   "examiner": [
     {
-      "text": "外科",
-      "state": "closed",
-      "children": [
-        {
-          "text": "心臟外科",
-          "state": "closed",
-          "children": [
-            {
-              "text": "褚韋志",
-              "examinerId": "e00001"
-            },
-            {
-              "text": "張吉名",
-              "examinerId": "e00002"
-            }
-          ]
-        },
-        {
-          "text": "腦部外科",
-          "state": "closed",
-          "children": [
-            {
-              "text": "陳宜君",
-              "examinerId": "e00003"
-            },
-            {
-              "text": "王宏達",
-              "examinerId": "e00004"
-            },
-            {
-              "text": "王彥安",
-              "examinerId": "e00004"
-            }
-          ]
-        }
-      ],
+      "examinerName": "褚韋志",
+      "examinerId": "e00001",
       "id": 1
     },
     {
-      "text": "小兒科",
-      "state": "closed",
-      "children": [
-        {
-          "text": "溫子芸",
-          "examinerId": "e00005"
-        }
-      ],
+      "examinerName": "張吉名",
+      "examinerId": "e00002",
       "id": 2
     },
     {
-      "text": "婦科",
-      "state": "closed",
-      "children": [
-        {
-          "text": "黃修仁",
-          "examinerId": "e00006"
-        }
-      ],
+      "examinerName": "陳宜君",
+      "examinerId": "e00003",
       "id": 3
+    },
+    {
+      "examinerName": "王宏達",
+      "examinerId": "e00004",
+      "id": 4
+    },
+    {
+      "examinerName": "王彥安",
+      "examinerId": "e00005",
+      "id": 5
+    },
+    {
+      "examinerName": "溫子芸",
+      "examinerId": "e00006",
+      "id": 6
+    },
+    {
+      "examinerName": "黃修仁",
+      "examinerId": "e00007",
+      "id": 7
     }
   ],
   "patient": [
     {
-      "text": "外科病人",
-      "state": "closed",
-      "children": [
-        {
-          "text": "高亞盛",
-          "patientId": "P00001"
-        }
-      ],
+      "patientName": "高亞盛",
+      "patientId": "P00001",
       "id": 1
     },
     {
-      "text": "內科病人",
-      "state": "closed",
-      "children": [
-        {
-          "text": "蕭千山",
-          "patientId": "P00002"
-        },
-        {
-          "text": "宓巧燕",
-          "patientId": "P00003"
-        },
-        {
-          "text": "林佳儒",
-          "patientId": "P00004"
-        }
-      ],
+      "patientName": "蕭千山",
+      "patientId": "P00002",
       "id": 2
+    },
+    {
+      "patientName": "宓巧燕",
+      "patientId": "P00003",
+      "id": 3
+    },
+    {
+      "patientName": "林佳儒",
+      "patientId": "P00004",
+      "id": 4
     }
   ],
   "posts": [
