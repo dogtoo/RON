@@ -45,7 +45,7 @@
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 2,
-      "roomSeq": 2
+      "roomSeq": 3
     },
     {
       "editing": false,
@@ -63,7 +63,7 @@
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 3,
-      "roomSeq": 3
+      "roomSeq": 4
     },
     {
       "editing": false,
@@ -81,7 +81,7 @@
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 4,
-      "roomSeq": 4
+      "roomSeq": 5
     },
     {
       "editing": false,
@@ -99,7 +99,7 @@
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 5,
-      "roomSeq": 5
+      "roomSeq": 6
     },
     {
       "editing": false,
@@ -117,7 +117,7 @@
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 6,
-      "roomSeq": 6,
+      "roomSeq": 2,
       "_selected": false
     }
   ],
@@ -144,6 +144,8 @@
       "sectType": "test",
       "id": 2
     }
+  ],
+  "SCRDDM": [
   ],
   "qsmstr": [
     {
@@ -261,6 +263,28 @@
       "patientName": "林佳儒",
       "patientId": "P00004",
       "id": 4
+    }
+  ],
+  "examinee": [
+    {
+      "id": 1,
+      "examineeName": "Student3",
+      "examineeId": "S00001"
+    },
+    {
+      "id": 2,
+      "examineeName": "Student6",
+      "examineeId": "S00002"
+    },
+    {
+      "id": 3,
+      "examineeName": "Student8",
+      "examineeId": "S00003"
+    },
+    {
+      "id": 4,
+      "examineeName": "Student9",
+      "examineeId": "S00004"
     }
   ],
   "posts": [
