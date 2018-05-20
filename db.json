@@ -45,7 +45,7 @@
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 2,
-      "roomSeq": 3
+      "roomSeq": 2
     },
     {
       "editing": false,
@@ -63,7 +63,133 @@
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 3,
-      "roomSeq": 4
+      "roomSeq": 3
+    }
+  ],
+  "SCRDSM": [
+    {
+      "seqNo": 2,
+      "sectSet": 2,
+      "sectName": "考試時間",
+      "sectTime": "8",
+      "fileName": "tttt",
+      "relaTime": "0",
+      "rdId": "EXAM001",
+      "sectType": "TS",
+      "id": 1,
+      "sectSeq": 2
+    },
+    {
+      "seqNo": 1,
+      "sectSet": 1,
+      "sectName": "讀題時間",
+      "sectTime": "2",
+      "fileName": "test",
+      "relaTime": "0",
+      "rdId": "EXAM001",
+      "sectType": "RD",
+      "id": 2,
+      "sectSeq": 1
+    },
+    {
+      "seqNo": 3,
+      "sectSeq": 3,
+      "rdId": "EXAM001",
+      "sectType": "RD",
+      "sectName": "讀題時間",
+      "sectTime": "2",
+      "fileName": "tttt",
+      "relaTime": "0",
+      "id": 4
+    },
+    {
+      "seqNo": 4,
+      "sectSeq": 4,
+      "sectName": "考試時間",
+      "sectType": "TS",
+      "sectTime": "8",
+      "fileName": "tttt",
+      "relaTime": "0",
+      "rdId": "EXAM001",
+      "id": 5
+    },
+    {
+      "seqNo": 5,
+      "sectSeq": 0,
+      "sectName": "休息時間",
+      "sectType": "RS",
+      "sectTime": "10",
+      "fileName": "tttt",
+      "relaTime": "0",
+      "rdId": "EXAM001",
+      "id": 6
+    },
+    {
+      "seqNo": 6,
+      "sectSeq": 5,
+      "sectName": "讀題時間",
+      "sectType": "RD",
+      "sectTime": "2",
+      "fileName": "tttt",
+      "relaTime": "0",
+      "rdId": "EXAM001",
+      "id": 7
+    },
+    {
+      "seqNo": 7,
+      "sectSeq": 6,
+      "sectName": "考試時間",
+      "sectType": "TS",
+      "sectTime": "8",
+      "fileName": "tttt",
+      "relaTime": "0",
+      "rdId": "EXAM001",
+      "id": 8
+    },
+    {
+      "seqNo": 8,
+      "sectSeq": 7,
+      "sectName": "讀題時間",
+      "sectType": "RD",
+      "sectTime": "2",
+      "fileName": "tttt",
+      "relaTime": "0",
+      "rdId": "EXAM001",
+      "id": 9
+    },
+    {
+      "seqNo": 9,
+      "sectSeq": 8,
+      "sectName": "考試時間",
+      "sectType": "TS",
+      "sectTime": "8",
+      "fileName": "tttt",
+      "relaTime": "0",
+      "rdId": "EXAM001",
+      "id": 10
+    }
+  ],
+  "SCRDDM": [
+    {
+      "editing": false,
+      "qsName": "心絞痛臨床治療",
+      "roomName": "小兒科101",
+      "examinerName": "張吉名",
+      "patient1Name": "高亞盛",
+      "patient2Name": "",
+      "patient3Name": "",
+      "qsId": "2017100601",
+      "roomId": "S101",
+      "examinerId": "e00002",
+      "patient1Id": "P00001",
+      "patient2Id": "",
+      "patient3Id": "",
+      "rdId": "EXAM001",
+      "id": 1,
+      "roomSeq": 1,
+      "examineeName": "Student3",
+      "examinee": "S00001",
+      "sectSeq": 2
     },
     {
       "editing": false,
@@ -80,8 +206,11 @@
       "patient2Id": "",
       "patient3Id": "",
       "rdId": "EXAM001",
-      "id": 4,
-      "roomSeq": 5
+      "id": 2,
+      "roomSeq": 2,
+      "examineeName": "Student8",
+      "examinee": "S00003",
+      "sectSeq": 4
     },
     {
       "editing": false,
@@ -98,54 +227,12 @@
       "patient2Id": "",
       "patient3Id": "",
       "rdId": "EXAM001",
-      "id": 5,
-      "roomSeq": 6
-    },
-    {
-      "editing": false,
-      "qsName": "測試修改教案",
-      "roomName": "復健科203",
-      "examinerName": "張吉名",
-      "patient1Name": "林佳儒",
-      "patient2Name": "",
-      "patient3Name": "",
-      "qsId": "2018041901",
-      "roomId": "R203",
-      "examinerId": "",
-      "patient1Id": "",
-      "patient2Id": "",
-      "patient3Id": "",
-      "rdId": "EXAM001",
-      "id": 6,
-      "roomSeq": 2,
-      "_selected": false
+      "id": 3,
+      "roomSeq": 3,
+      "examineeName": "Student9",
+      "examinee": "S00004",
+      "sectSeq": 6
     }
-  ],
-  "SCRDSM": [
-    {
-      "seqNo": 2,
-      "sectSet": 2,
-      "sectName": "eeeee",
-      "sectTime": "32",
-      "fileName": "asdf",
-      "relaTime": "23",
-      "rdId": "EXAM001",
-      "sectType": "eeeee",
-      "id": 1
-    },
-    {
-      "seqNo": 1,
-      "sectSet": 1,
-      "sectName": "test",
-      "sectTime": "3",
-      "fileName": "test",
-      "relaTime": "23",
-      "rdId": "EXAM001",
-      "sectType": "test",
-      "id": 2
-    }
-  ],
-  "SCRDDM": [
   ],
   "qsmstr": [
     {
@@ -810,6 +897,43 @@
       "codetype": "002",
       "codeid": "tss",
       "codename": "考試暫停中"
+    }
+  ],
+  "SCSECT": [
+    {
+      "id": "1",
+      "codeName": "讀題時間",
+      "code": "RD"
+    },
+    {
+      "id": "2",
+      "codeName": "考試時間",
+      "code": "TS"
+    },
+    {
+      "id": "3",
+      "codeName": "休息時間",
+      "code": "RS"
+    },
+    {
+      "id": "4",
+      "codeName": "暫停時間",
+      "code": "ST"
+    },
+    {
+      "id": "5",
+      "codeName": "播放音效",
+      "code": "PL"
+    },
+    {
+      "id": "6",
+      "codeName": "開始倒數",
+      "code": "FB"
+    },
+    {
+      "id": "7",
+      "codeName": "結束倒數",
+      "code": "FD"
     }
   ]
 }
