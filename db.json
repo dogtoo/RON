@@ -22,21 +22,22 @@
   "SCRDRM": [
     {
       "editing": false,
-      "qsName": "心絞痛臨床治療",
+      "qsName": "測試教案1",
       "roomName": "小兒科102",
       "examinerName": "陳宜君",
       "patient1Name": "高亞盛",
       "patient2Name": "",
       "patient3Name": "",
-      "qsId": "",
+      "qsId": "2017100401",
       "roomId": "",
-      "examinerId": "e00003",
+      "examinerId": "",
       "patient1Id": "",
       "patient2Id": "",
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 1,
-      "roomSeq": 1
+      "roomSeq": 1,
+      "_selected": false
     },
     {
       "editing": false,
@@ -54,8 +55,7 @@
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 2,
-      "roomSeq": 2,
-      "_selected": true
+      "roomSeq": 2
     },
     {
       "editing": false,
@@ -364,23 +364,22 @@
   "SCRDDM": [
     {
       "editing": false,
-      "qsName": "心絞痛臨床治療",
+      "qsName": "測試教案1",
       "roomName": "小兒科102",
       "examinerName": "陳宜君",
       "patient1Name": "高亞盛",
       "patient2Name": "",
       "patient3Name": "",
-      "qsId": "",
+      "qsId": "2017100401",
       "roomId": "",
-      "examinerId": "e00003",
+      "examinerId": "",
       "patient1Id": "",
       "patient2Id": "",
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 1,
       "roomSeq": 1,
-      "examineeName": "Student3",
-      "examinee": "S00001"
+      "_selected": false
     },
     {
       "editing": false,
@@ -398,9 +397,7 @@
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 2,
-      "roomSeq": 3,
-      "examineeName": "Student6",
-      "examinee": "S00002"
+      "roomSeq": 2
     },
     {
       "editing": false,
@@ -418,12 +415,10 @@
       "patient3Id": "",
       "rdId": "EXAM001",
       "id": 3,
-      "roomSeq": 4,
-      "examineeName": "Student8",
-      "examinee": "S00003"
+      "roomSeq": 3
     },
     {
-      "roomSeq": 2,
+      "roomSeq": 4,
       "editing": false,
       "qsName": "測試檔案顯示",
       "roomName": "心臟外科001",
@@ -438,9 +433,7 @@
       "patient2Id": "",
       "patient3Id": "",
       "rdId": "EXAM001",
-      "id": 4,
-      "examineeName": "Student9",
-      "examinee": "S00004"
+      "id": 4
     },
     {
       "roomSeq": 1,
