@@ -1,13 +1,20 @@
 1. 梯次查詢 qryRd
 2. 梯次編輯處理 editRd
+    qryRdList(req, dbu) rd 查詢
+    editDRM(proc, req, dbu)
+    editDSM(proc, req, dbu)
+    editDDM(proc, req, dbu)
+
     #RD_ID 日期(8) + 流水號(3) PS:max + 1就好了
     考表產生後就不給改了
     2.1 SCRDMM 考試梯次主檔
+        改讀題時、考試時間要異動節次
+        editDSM
     2.2 複製
         SCRDMM
-        SCRDRM (教案有勾考官跟病人才可以不勾)
-        SCRDSM (只複製讀考休時間)
-3. 梯次刪除處理 delRd
+        editDRM (教案有勾考官跟病人才可以不勾)
+        editDSM (只複製讀考休時間)
+    2.3 梯次刪除
     SCRDMM SCRDRM SCRDSM SCRDDM(學生資料會先寫在裡面)
     考試中不能刪，考完也不能刪
 4. 考站建檔 editRdRoom
